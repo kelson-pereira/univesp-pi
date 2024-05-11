@@ -1,0 +1,55 @@
+{% extends 'app/base.html' %}
+{% block nav_registros %}active{% endblock %}
+{% block conteudo %}
+{% include 'app/navbar.html' with nav_registros='true' %}
+<div class="d-flex flex-grow-1">
+    <div class="container-lg shadow px-4 py-3 rounded bg-white">
+        {% if messages %}
+            {% for message in messages %}
+                <div id="toast" class="toast position-absolute mt-2 top-0 start-50 translate-middle-x {{ message.extra_tags }} border-0" data-bs-delay="3000" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ message }}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% for registro in registros %}
+            {% include 'app/apagar.html' %}
+        {% endfor %}
+        <div class="d-flex flex-row justify-content-between align-items-stretch">
+            <div><p class="fs-3 lh-sm me-2">Registros de <i>Aedes aegypti</i></p></div>
+            <div class="d-flex flex-wrap justify-content-end align-self-start gap-2">
+                <span class="badge rounded-pill fw-normal text-bg-primary">Últimos 40 dias</span>
+                <span class="badge rounded-pill fw-normal text-bg-danger">Experimental</span>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table text-nowrap align-middle table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Data Hora</th>
+                        <th>CEP</th>
+                        <th>Número</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for registro in registros %}
+                    <tr>
+                        <td><i role="button" class="bi bi-trash text-primary" style="font-size: 1.5rem;" data-bs-toggle="modal" data-bs-target="#apagarModal{{registro.ident}}"></i></td>
+                        <td>{{registro.datahora|date:"SHORT_DATETIME_FORMAT"}}</td>
+                        <td>{{registro.cep}}</td>
+                        <td>{{registro.numero}}</td>
+                        <td>{{registro.descricao}}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+<div class="modal fade" id="apagarModal{{registro.ident}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Apagar registro</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'apagar' %}" method="POST" novalidate>
+                {% csrf_token %}
+                <div class="modal-body">
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item"><b>Data Hora:</b> {{ registro.datahora }}</li>
+                        <li class="list-group-item"><b>CEP:</b> {{ registro.cep }}</li>
+                        <li class="list-group-item"><b>Número:</b> {{ registro.numero }}</li>
+                        <li class="list-group-item"><b>Descrição:</b> {{ registro.descricao }}</li>
+                    </ul>
+                    <p>Para apagar o registro informe o telefone com DDD.</p>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-auto">
+                          <label for="telefone" class="col-form-label"><b>Telefone:</b></label>
+                        </div>
+                        <div class="col-auto">
+                          <input type="password" id="telefone{{registro.ident}}" name="telefone" class="form-control" aria-describedby="Telefone">
+                        </div>
+                        <div class="col-auto">
+                          <span class="form-text">
+                            Ex: 12987654321 (somente números)
+                          </span>
+                        </div>
+                    </div>
+                    <input class="form-control" type="hidden" name="ident" id="ident{{registro.ident}}" value="{{ registro.ident }}"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Apagar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    var modal = document.getElementById("apagarModal{{registro.ident}}")
+    modal.addEventListener("shown.bs.modal", function () {
+        document.getElementById("telefone{{registro.ident}}").focus()
+    })
+</script>
